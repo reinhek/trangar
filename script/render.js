@@ -78,7 +78,7 @@ const renderInstruction = () => {
 function detectMob() {
 	screen_width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 	screen_height = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-    return ( ( screen_width <= 1024 ) || ( screen_height <= 700 ) );
+    return ( ( screen_width <= 1024 ) || ( screen_height <= 720 ) );
   }
 
 const renderMobile = () => {
