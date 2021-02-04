@@ -1,5 +1,10 @@
-const screen_width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-const screen_height = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+var screen_width;
+var screen_height;
+
+
+console.log(detectMob());
+console.log(screen_width);
+console.log(screen_height);
 
 if(detectMob()) {
 	renderMobile();
@@ -38,7 +43,7 @@ class Car {
 	}
 	
 	forward = () => {
-		if(this.speed < 10.0) {
+		if(this.speed < 20.0) {
 			this.speed += 5.0 * 0.035;
 		}
 	}
@@ -132,15 +137,6 @@ function init() {
 			if(controller[e.key]) {
 				controller[e.key].pressed = false
 			}
-	});
-	
-	home.ref.addEventListener("onmouseover", function() {
-		this.highlight();
-		console.log('hovered');
-	});
-	
-	home.ref.addEventListener("onmouseout", function() {
-		this.dehighlight();
 	});
 }
 
@@ -264,6 +260,11 @@ const handleButtons = () => {
 			
 		}
 	})
+	
+	var time = new Date()
+	console.log(time)
+	console.log(currentSelected)
+	console.log(pageSelected)
 }
 
 
@@ -289,9 +290,6 @@ const controller = {
 }
 
 
-
-
-
 var loop = setInterval(function() {
 	
 	executeKeys();
@@ -304,6 +302,9 @@ var loop = setInterval(function() {
 		handleCollisions(pages, pageSelected);
 	}
 	
+	if(detectMob()) {
+		renderMobile();
+	}
 	
 	
 }, 35);
