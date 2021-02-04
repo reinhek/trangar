@@ -66,18 +66,37 @@ const renderInstruction = () => {
 		} else {
 			element.style.visibility = 'visible';
 		}
-	} 
+	}
+
+	var time = new Date();
+	console.log(time);
+	console.log(currentSelected);
+	console.log(pageSelected);
 	
 }
 
 function detectMob() {
-    return ( ( window.innerWidth <= 850 ) && ( window.innerHeight <= 700 ) );
+	screen_width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+	screen_height = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+    return ( ( screen_width <= 1350 ) || ( screen_height <= 700 ) );
   }
 
 const renderMobile = () => {
 	var body = document.getElementById('body');
-	body.innerHTML = 'Page does not support mobile browsers.';
+	body.innerHTML = '';
 	body.style.display = 'flex';
 	body.style.justifyContent = 'center';
 	body.style.alignItems = 'center';
+	body.style.textAlign = 'center';
+	body.style.backgroundColor = '#005951';
+	
+	var div = document.createElement('div');
+	div.innerHTML = 'Page does not support lower resolutions.<br>Please resize the browser and refresh the page.';
+	div.style.position = 'absolute';
+	div.style.top = '40%';
+	div.style.fontSize = '35px';
+	
+	
+	
+	body.appendChild(div);
 }
