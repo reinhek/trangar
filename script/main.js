@@ -31,22 +31,22 @@ class Car {
 	}
 	
 	rotateRight = () => {
-		this.deg += 5;
+		this.deg += 5*screen_width/1024;
 	}
 	
 	rotateLeft = () => {
-		this.deg -= 5;
+		this.deg -= 5*screen_width/1024;
 		
 	}
 	
 	forward = () => {
-		if(this.speed < 20.0) {
+		if(this.speed < 20.0*screen_width/1024) {
 			this.speed += 5.0 * 0.035;
 		}
 	}
 	
 	backward = () => {
-		if(this.speed > -5.0) {
+		if(this.speed > -5.0*screen_width/1024) {
 			this.speed -= 5.0 * 0.035;
 		}
 	}
@@ -124,7 +124,7 @@ class Pointer {
 
 
 function init() {
-	car1 = new Car('car', 87, 22);
+	car1 = new Car('car', 87, 26);
 	car2 = new Car('car2', 0, 0);
 	car2.setInvisible();
 	
@@ -318,6 +318,10 @@ const controller = {
 	"ArrowRight": {pressed: false, func: car1.rotateRight},
 	"ArrowUp": {pressed: false, func: car1.forward},
 	"ArrowDown": {pressed: false, func: car1.backward},
+	"a": {pressed: false, func: car1.rotateLeft},
+	"d": {pressed: false, func: car1.rotateRight},
+	"w": {pressed: false, func: car1.forward},
+	"s": {pressed: false, func: car1.backward},
 	" ": {pressed: false, func: handleButtons},
 	"Escape": {pressed: false, func: renderInstruction},
 }
