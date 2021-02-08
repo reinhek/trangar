@@ -67,18 +67,21 @@ const renderInstruction = () => {
 			element.style.visibility = 'visible';
 		}
 	}
-
-	var time = new Date();
-	console.log(time);
-	console.log(currentSelected);
-	console.log(pageSelected);
-	
 }
 
-function detectMob() {
-	screen_width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-	screen_height = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-    return ( ( screen_width <= 880 ) || ( screen_height <= 720 ) );
+const getScreenWidth = () => {
+	return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+}
+
+const getScreenHeight = (ratio) => {
+	return Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+}
+
+const detectMob = ()  => {
+	ratio = window.devicePixelRatio || 1;
+	screen_width = getScreenWidth();
+	screen_height = getScreenHeight();
+    return ( ( screen_width/ratio <= 1020 ) ) ;
   }
 
 const renderMobile = () => {
@@ -96,7 +99,36 @@ const renderMobile = () => {
 	div.style.top = '40%';
 	div.style.fontSize = '35px';
 	
-	
-	
 	body.appendChild(div);
+}
+
+const handleResize = () => {
+	var nextRatio = window.devicePixelRatio || 1;
+	var nextWidth = getScreenWidth();
+	var nextHeight = getScreenHeight();
+	var nextToCurrentWidth = nextWidth/screen_width;
+	var nextToCurrentHeight = nextHeight/screen_height;
+	
+	var arr = [buttons,pages];
+	
+	car1.x = car1.x*nextToCurrentWidth;
+	car1.y = car1.y*nextToCurrentHeight;
+	
+	arr.forEach(buttons => {
+		Object.values(buttons).forEach(button=> {
+			button.x = button.x*nextToCurrentWidth;
+			button.y = button.y*nextToCurrentHeight;
+			button.ref.style.left =  button.x + 'px';
+			button.ref.style.top =  button.y + 'px';
+		})
+	});
+	
+	
+	console.log(car1.x);
+	
+	
+	
+	screen_width = nextWidth;
+	screen_height = nextHeight;
+	ratio = nextRatio;
 }
