@@ -1,10 +1,6 @@
 var screen_width;
 var screen_height;
-
-
-console.log(detectMob());
-console.log(screen_width);
-console.log(screen_height);
+var ratio;
 
 if(detectMob()) {
 	renderMobile();
@@ -18,6 +14,7 @@ class Car {
 		this.height = 70;
 		this.deg = 90;
 		this.speed = 0.0;
+		this.isShow = true;
 		
 		var img = document.createElement('img');
 		img.id = name;
@@ -56,6 +53,7 @@ class Car {
 	
 	setInvisible = () => {
 		this.ref.style.visibility = 'hidden';
+		this.isShow = false;
 	}
 	
 	render = () => {
@@ -100,11 +98,39 @@ class Button {
 	}
 }
 
+class Pointer {
+	constructor() {
+		this.x = 0;
+		this.y = 0;
+	}
+	
+	update = (mouseEvent) => {
+		var xpos;
+		var ypos;
+		
+		if(mouseEvent) {
+			xpos = mouseEvent.pageX;
+			ypos = mouseEvent.pageY;
+		} else {
+			xpos = window.event.x + document.body.scrollLeft - 2;
+			ypos = window.event.y + document.body.scrollLeft - 2;
+		}
+		
+		this.x = xpos;
+		this.y = ypos;
+	}
+	
+}
+
 
 function init() {
 	car1 = new Car('car', 87, 22);
 	car2 = new Car('car2', 0, 0);
 	car2.setInvisible();
+	
+	
+	pointer = new Pointer();
+	document.onmousemove = pointer.update;
 	
 	home = new Button("home");
 	home.setFunc(renderHome);
@@ -138,6 +164,14 @@ function init() {
 				controller[e.key].pressed = false
 			}
 	});
+	
+	document.addEventListener("mousedown", function() {
+		car1.isShow = false;
+		handleButtons();
+		car1.isShow = true;
+	});
+	
+	window.onresize = handleResize;
 }
 
 var car1;
@@ -146,6 +180,8 @@ var home;
 var portfolio;
 var personal;
 var trangar;
+var pointer;
+
 var currentSelected;
 
 var prev;
@@ -214,8 +250,10 @@ const updateCars = () => {
 }
 
 const checkCollision = (button) => {
-	if(car1.x - car1.width >= button.x - button.width/2 && car1.x <= button.x + button.width &&
-		car1.y >= button.y - button.height/2 && car1.y <= button.y + button.height) {
+	if((car1.x - car1.width >= button.x - button.width/2 && car1.x <= button.x + button.width &&
+		car1.y >= button.y - button.height/2 && car1.y <= button.y + button.height && car1.isShow) || 
+		(pointer.x >= button.x && pointer.x <= button.x + button.width &&
+		pointer.y >= button.y && pointer.y <= button.y + button.height)) {
 			return true;
 		} else {
 			return false;
@@ -224,7 +262,7 @@ const checkCollision = (button) => {
 
 const handleButtons = () => {
 	Object.values(buttons).forEach(button=> {
-		if(button.ishighlight && checkCollision(button)) {
+		if((button.ishighlight && checkCollision(button))) {
 			if(button != currentSelected && currentSelected != null) {
 				currentSelected.dehighlight();
 				currentSelected.disabled = false;
@@ -243,7 +281,7 @@ const handleButtons = () => {
 	})
 	
 	Object.values(pages).forEach(button=> {
-		if(button.ishighlight && checkCollision(button)) {
+		if((button.ishighlight && checkCollision(button)) || (button.ishighlight && button.hovered)) {
 			if(button != pageSelected && pageSelected != null) {
 				pageSelected.dehighlight();
 				pageSelected.disabled = false;
@@ -260,11 +298,6 @@ const handleButtons = () => {
 			
 		}
 	})
-	
-	var time = new Date()
-	console.log(time)
-	console.log(currentSelected)
-	console.log(pageSelected)
 }
 
 
