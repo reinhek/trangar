@@ -117,9 +117,11 @@ code {
 
 #parking {
 	position: absolute;
-	height: 60%;
-	left: 36.25vw;
-	top: 5.7vh;
+	max-height: 52.5%;
+	height: auto;
+	width: auto;
+	left: 34.25vw;
+	top: 8.75vh;
 }
 
 .page {
