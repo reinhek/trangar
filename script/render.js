@@ -123,11 +123,6 @@ const handleResize = () => {
 		})
 	});
 	
-	
-	console.log(car1.x);
-	
-	
-	
 	screen_width = nextWidth;
 	screen_height = nextHeight;
 	ratio = nextRatio;
